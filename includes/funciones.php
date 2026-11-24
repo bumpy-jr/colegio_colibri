@@ -63,7 +63,11 @@ function areaTexto(string $id, string $etq, array $d, array $e): string {
     return '<div class="campo"><label for="'.$id.'">'.escapar($etq).' (opcional)</label><textarea id="'.$id.'" name="'.$id.'" rows="3" maxlength="300"'.ariaError($e,$id).'>'.escapar($d[$id] ?? '').'</textarea>'.errorCampo($e,$id).'</div>';
 }
 function casilla(bool $on, array $e): string {
-    return '<div class="campo"><label class="check"><input type="checkbox" name="autorizo" value="1"'.($on?' checked':'').'> Autorizo el tratamiento de los datos (ejercicio con datos ficticios).</label>'.errorCampo($e,'autorizo').'</div>';
+    return '<div class="campo campo-consentimiento"><label class="check" for="autorizo">'
+        . '<input type="checkbox" id="autorizo" name="autorizo" value="1"'
+        . ($on ? ' checked' : '') . ' required>'
+        . '<span>Confirmo que utilizo datos ficticios y autorizo su tratamiento exclusivamente para este ejercicio académico.</span>'
+        . '</label>' . errorCampo($e, 'autorizo') . '</div>';
 }
 function avisos(array $e): string {
     if (isset($e['general'])) return '<div class="aviso aviso--error" role="alert">'.escapar($e['general']).'</div>';
