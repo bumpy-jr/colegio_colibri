@@ -1,0 +1,53 @@
+COLEGIO COLIBRI - PROYECTO ACADEMICO
+===================================
+
+REQUISITOS
+- PHP 8.3 o superior.
+- Extensión mbstring (utilizada para validar longitudes de texto).
+- Apache o servidor PHP integrado.
+- Docker Desktop (opcional, para ejecutar con un solo comando).
+
+EJECUTAR SIN DOCKER (PHP integrado)
+1. Abra una terminal en la carpeta raiz del proyecto.
+2. Ejecute: php -S localhost:8000 -t publico
+3. Abra http://localhost:8000
+
+EJECUTAR CON DOCKER
+1. Instale e inicie Docker Desktop.
+2. Desde la carpeta raiz ejecute: docker compose up --build
+3. Abra http://localhost:8000
+4. Para detener: docker compose down
+Los registros quedan en un volumen Docker llamado datos_colegio. Para borrar también los registros:
+docker compose down -v
+ADVERTENCIA: el comando anterior elimina permanentemente los CSV del volumen.
+
+ESTRUCTURA
+- publico/: paginas, CSS, JavaScript e imagenes accesibles desde el navegador.
+- includes/: configuracion y funciones PHP reutilizables.
+- datos/: archivos CSV privados, fuera de publico.
+- Dockerfile y docker-compose.yml: entorno local reproducible.
+
+FORMULARIOS Y ALMACENAMIENTO
+- prematricula.php guarda solicitudes en datos/prematriculas.csv.
+- agenda.php guarda citas en datos/citas.csv.
+- Los archivos se crean automaticamente al recibir el primer registro.
+- Se utiliza bloqueo flock para evitar escrituras simultaneas corruptas.
+- La reserva de citas cuenta y escribe bajo el mismo bloqueo; se limita a dos registros por fecha y franja.
+- celdaSegura() protege frente a inyeccion de formulas en hojas de calculo.
+- Los CSV nunca deben moverse a publico ni incluirse en el ZIP de entrega.
+
+PRUEBAS
+Consulte PRUEBAS_Y_ENTREGA.md. Las pruebas manuales deben ejecutarse en navegador y documentarse
+con capturas. No marque como aprobada una prueba que no haya ejecutado.
+
+PRIVACIDAD
+Este es un ejercicio academico. Use exclusivamente datos inventados (nombres ficticios, telefono
+ficticio y correos bajo el dominio .example). No recopile ni publique datos reales de niños o familias.
+La casilla del formulario documenta el uso de datos ficticios para el ejercicio; no constituye una
+autorizacion legal suficiente para operar un colegio real.
+
+DESPLIEGUE EXTERNO
+La guia academica establece que los datos de estudiantes y familias no deben subirse a plataformas
+externas durante la practica. Por eso esta entrega esta configurada para ejecucion local con CSV
+protegidos, no para Render/Aiven. Una migracion de produccion requiere una decision y evaluacion
+separadas, politicas legales, controles de acceso, copias de seguridad y datos ficticios para pruebas.

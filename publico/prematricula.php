@@ -37,7 +37,7 @@ require_once __DIR__.'/../includes/header.php';
   <p>Gracias, <strong><?= escapar($datos['acudiente']) ?></strong>. Registramos a <strong><?= escapar($datos['nombres'].' '.$datos['apellidos']) ?></strong>.</p>
   <p>Radicado: <strong class="codigo"><?= escapar($radicado) ?></strong></p><a class="boton" href="index.php">Volver al inicio</a></div>
 <?php else: ?>
-  <div class="aviso aviso--info"><strong>Ejercicio académico:</strong> usa solo datos inventados.</div>
+  <aside class="aviso aviso--info aviso--institucional" aria-label="Información importante"><span class="aviso__icono" aria-hidden="true">i</span><div><strong>Formulario de demostración</strong><p>Este sitio se utiliza con fines académicos. Para realizar pruebas, ingresa únicamente información ficticia.</p></div></aside>
   <?= avisos($errores) ?>
   <form class="formulario" method="POST" action="prematricula.php" novalidate>
     <fieldset><legend>1. El niño o la niña</legend>

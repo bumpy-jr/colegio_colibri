@@ -1,0 +1,11 @@
+services:
+  colegio-colibri:
+    build: .
+    ports:
+      - "8000:80"
+    volumes:
+      - datos_colegio:/var/www/html/datos
+    restart: unless-stopped
+
+volumes:
+  datos_colegio:

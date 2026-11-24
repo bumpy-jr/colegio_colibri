@@ -1,0 +1,6 @@
+.env
+*.log
+datos/*.csv
+!datos/.htaccess
+.DS_Store
+Thumbs.db

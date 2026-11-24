@@ -1,23 +1,47 @@
 <?php
 declare(strict_types=1);
-require_once __DIR__.'/../includes/config.php';
 $titulo = 'Inicio';
 require_once __DIR__.'/../includes/header.php';
-$cifras = [[18,'años enseñando'],[240,'familias felices'],[12,'docentes'],[8,'grados']];
-$pilares = [['🎨','Juego creativo','Arte, música y movimiento como puerta al aprendizaje.'],['🌱','Huerta escolar','Cuidamos plantas y aprendemos ciencias con las manos.'],['🤝','Convivencia','Aprendemos a escuchar, compartir y resolver juntos.']];
+
+$niveles = [
+    ['🌱','Preescolar','3 a 5 años','Jugar, explorar y descubrir el mundo con curiosidad y alegría.'],
+    ['📚','Básica primaria','6 a 10 años','Leer, crear, resolver preguntas y aprender en comunidad.'],
+    ['🎨','Talleres complementarios','Todas las edades','Arte, música, movimiento y experiencias para descubrir talentos.'],
+];
+$cifras = [[18,'años de trayectoria'],[240,'familias acompañadas'],[12,'docentes comprometidos']];
 ?>
 <section class="portada"><div class="contenedor portada__grid">
-  <div><p class="etiqueta">Preescolar y básica primaria · Neiva</p>
-  <h1><?= escapar(LEMA) ?></h1>
-  <p>En <?= escapar(NOMBRE_COLEGIO) ?> cada niño es un colibrí: curioso, veloz y lleno de color.</p>
-  <p><a class="boton boton--coral" href="prematricula.php">Pre-matrícula 2027</a> <a class="boton" href="agenda.php">Agenda una visita</a></p></div>
-  <div class="portada__arte" aria-hidden="true"><img src="img/ccolibri.png" alt="" width="560" height="560"></div>
+  <div>
+    <p class="etiqueta">Preescolar y básica primaria · Neiva</p>
+    <h1>Pequeños vuelos, <span class="resaltado">grandes sueños</span></h1>
+    <p class="portada__lead">En <?= escapar(NOMBRE_COLEGIO) ?> acompañamos a cada niño y niña con afecto, creatividad y curiosidad para aprender cada día.</p>
+    <div class="botones">
+      <a class="boton boton--coral" href="prematricula.php">Pre-matrícula 2027</a>
+      <a class="boton" href="agenda.php">Agenda una visita</a>
+    </div>
+  </div>
+  <div class="portada__arte"><img src="img/ccolibri.png" alt="Identidad ilustrada del Colegio Colibrí" width="560" height="560"></div>
 </div></section>
-<section class="seccion"><div class="contenedor"><h2>Lo que nos hace distintos</h2>
-  <div class="rejilla"><?php foreach ($pilares as [$ico,$t,$d]): ?>
-    <article class="tarjeta reveal"><span class="ico"><?= $ico ?></span><h3><?= escapar($t) ?></h3><p><?= escapar($d) ?></p></article>
-  <?php endforeach; ?></div></div></section>
-<section class="cifras"><div class="contenedor rejilla">
-  <?php foreach ($cifras as [$n,$t]): ?><div><strong data-contar="<?= $n ?>">0</strong><span><?= escapar($t) ?></span></div><?php endforeach; ?>
+<section class="banner"><div class="contenedor banner__caja">
+  <p><strong>¡Estamos listos para conocerte!</strong> Agenda una visita y descubre nuestra propuesta educativa.</p>
+  <a class="boton boton--claro" href="agenda.php">Conócenos</a>
+</div></section>
+<section class="seccion"><div class="contenedor">
+  <h2 class="seccion__titulo">Una comunidad para crecer</h2>
+  <p class="seccion__sub">Acompañamos cada etapa con experiencias significativas y aprendizaje activo.</p>
+  <div class="rejilla rejilla--3">
+    <?php foreach ($niveles as [$icono,$nombre,$edades,$texto]): ?>
+      <article class="tarjeta reveal"><span class="ico" aria-hidden="true"><?= $icono ?></span><h3><?= escapar($nombre) ?></h3><p class="tarjeta__dato"><?= escapar($edades) ?></p><p><?= escapar($texto) ?></p></article>
+    <?php endforeach; ?>
+  </div>
+</div></section>
+<section class="cifras"><div class="contenedor rejilla rejilla--3">
+  <?php foreach ($cifras as [$numero,$texto]): ?>
+    <div><strong data-contador="<?= (int)$numero ?>">0</strong><span><?= escapar($texto) ?></span></div>
+  <?php endforeach; ?>
+</div></section>
+<section class="seccion"><div class="contenedor llamado">
+  <div><h2>¿Quieres conocer el colegio?</h2><p>Agenda una visita guiada y conversemos sobre el proceso de admisión.</p></div>
+  <a class="boton boton--coral" href="agenda.php">Agenda tu cita</a>
 </div></section>
 <?php require_once __DIR__.'/../includes/footer.php'; ?>

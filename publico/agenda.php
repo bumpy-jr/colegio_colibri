@@ -23,10 +23,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($ninos === false) $errores['ninos'] = 'Indica entre 1 y 5 niños.';
     if (mb_strlen($datos['comentarios']) > 300) $errores['comentarios'] = 'Máximo 300 caracteres.';
     if (!$autoriza) $errores['autorizo'] = 'Debes autorizar el tratamiento de datos.';
-    if ($errores === [] && citasEnFranja($datos['fecha'], $datos['franja']) >= CITAS_POR_FRANJA) $errores['franja'] = 'Esa hora está completa. Elige otra.';
     if ($errores === []) {
         $radicado = 'CT-'.date('Ymd').'-'.strtoupper(bin2hex(random_bytes(2)));
-        if (guardarCita([date('Y-m-d H:i:s'),$radicado,$datos['acudiente'],$tel,$datos['correo'],$datos['tipo'],$datos['fecha'],$datos['franja'],$ninos,$datos['comentarios']])) $enviado = true;
+        $resultado = reservarCita([date('Y-m-d H:i:s'),$radicado,$datos['acudiente'],$tel,$datos['correo'],$datos['tipo'],$datos['fecha'],$datos['franja'],$ninos,$datos['comentarios']]);
+        if ($resultado === 'guardada') $enviado = true;
+        elseif ($resultado === 'llena') $errores['franja'] = 'Esa hora ya completó sus '.CITAS_POR_FRANJA.' citas. Elige otra.';
         else $errores['general'] = 'No pudimos guardar la cita. Inténtalo de nuevo.';
     }
 }
@@ -39,7 +40,7 @@ require_once __DIR__.'/../includes/header.php';
   <p><?= escapar(TIPOS_CITA[$datos['tipo']]) ?> el <strong><?= escapar($datos['fecha']) ?></strong> a las <strong><?= escapar(FRANJAS[$datos['franja']]) ?></strong>.</p>
   <p>Radicado: <strong class="codigo"><?= escapar($radicado) ?></strong></p><a class="boton" href="index.php">Volver al inicio</a></div>
 <?php else: ?>
-  <div class="aviso aviso--info"><strong>Ejercicio académico:</strong> usa solo datos inventados. Cupo: <?= CITAS_POR_FRANJA ?> citas por hora.</div>
+  <aside class="aviso aviso--info aviso--institucional" aria-label="Información importante"><span class="aviso__icono" aria-hidden="true">i</span><div><strong>Formulario de demostración</strong><p>Este sitio se utiliza con fines académicos. Registra únicamente información ficticia. La agenda permite <?= CITAS_POR_FRANJA ?> reservas por horario.</p></div></aside>
   <?= avisos($errores) ?>
   <form class="formulario" method="POST" action="agenda.php" novalidate>
     <fieldset><legend>1. Tus datos</legend>
